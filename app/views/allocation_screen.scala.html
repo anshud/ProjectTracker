@@ -1,0 +1,171 @@
+@(allocationForm: Form[model.projectMaster.ResourceAllocations],
+resourceList: Option[List[model.resources.ResourceMaster]],
+project :Option[model.projectMaster.ProjectMaster],
+savedAllocations : Option[List[model.projectMaster.ResourceAllocation]],
+startInd : Int,lastInd : Int,user1 : Option[model.user.UserMaster],tab :String)
+
+@import java.util.Calendar
+@import common.DateUtils
+
+<script type="text/javascript">
+    function submitForm(buttonName){
+        var i;
+        var cnt =0;
+
+        for(i = 0; i < 10 ; i++) {
+            if(document.getElementById("resource"+i).value == 0){
+                cnt = cnt+1
+            }
+        }
+            if(cnt == 10){
+                alert("Please fill atleast one row")
+            }
+
+           else{
+                for(i = 0; i < 10 ; i++) {
+                   if(document.getElementById("resource"+i).value == 0){
+                       cnt = cnt+1
+                       document.getElementById("resource"+i).disabled = "true"
+                       if(document.getElementById("expPercnt"+i).value == ""){
+                           document.getElementById("expPercnt"+i).disabled="true"
+                       }
+                       if(document.getElementById("actPercnt"+i).value == ""){
+                           document.getElementById("actPercnt"+i).disabled ="true"
+                       }
+                       if(document.getElementById("cost"+i).value == ""){
+                           document.getElementById("cost"+i).disabled ="true"
+                       }
+                   }
+                 }
+                document.getElementById("clickedButton").value = buttonName
+                var form = document.getElementById("allocationFormId")
+                form.submit()
+            }
+
+
+    }
+    function getCost(i) {
+         var selected =  document.getElementById("resource"+i).value;
+         var exp_percent = document.getElementById("expPercnt"+i).value;
+         var resCost = document.getElementById(selected).value
+         var expected_cost = (exp_percent/100)* resCost
+        document.getElementById("cost"+i).value = expected_cost
+        document.getElementById("actPercnt"+i).value = exp_percent
+    }
+    function resetData(i){
+        document.getElementById("resource"+i).value=0
+        document.getElementById("expPercnt"+i).value=""
+        document.getElementById("cost"+i).value=""
+        document.getElementById("actPercnt"+i).value = ""
+    }
+
+
+</script>
+@main(title = "Allocate Resource",
+user = user1,tabName= tab){
+
+<div class="container">
+
+
+    <legend>
+        Allocate Resources for Project:  <span style="color:green">@project.get.title</span>
+        <span class="pull-right" style="color:green">Month: @DateUtils.getStrMonth(Calendar.getInstance.getTime.getMonth()+1)</span>
+
+    </legend>
+    <form action="@routes.ResourceAllocationController.saveAllocation(project.get.id)" method="post" id="allocationFormId">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Resources</th>
+                <th>Estimate allocation %</th>
+                <th>Cost</th>
+                <th>Actual allocation</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+             @if(savedAllocations.size > 0){
+             @for(i <- 0 until lastInd)  {
+
+            <tbody>
+            <tr>
+                <td>
+                   <select name="allocations[@i].resource" id="resource@i">
+                   <option value = 0>Select</option>
+                   @if(resourceList.size > 0){
+                   @for(eachResource <- resourceList.get){
+                       @if(savedAllocations.get(i).resource == eachResource.id){
+                       <option value="@eachResource.id" selected>@eachResource.firstName @eachResource.lastName</option>
+                       }
+                       @if(savedAllocations.get(i).resource != eachResource.id){
+                    <option value="@eachResource.id">@eachResource.firstName @eachResource.lastName</option>
+                       }
+                    } }
+                   </select>
+                    @if(resourceList.size > 0){
+                    @for(eachResource <- resourceList.get){
+                    <input type="hidden" value="@eachResource.cost" id="@eachResource.id"/>
+                    }
+                    }
+                </td>
+                <td><input id="expPercnt@i" type="number" name="allocations[@i].expectedPercent" style="width:90px" value="@savedAllocations.get(i).expectedPercent"
+                           onchange="javascript:getCost('@i')" step="any" min="0" pattern="^[-+]?[0-9]*\.?[0-9]+$" title="Should be decimal/numeric value"></td>
+                <td><input id="cost@i" type="text" name="allocations[@i].cost" style="width:90px"  value="@savedAllocations.get(i).cost" readonly></td>
+                <td><input id="actPercnt@i" type="number" name="allocations[@i].actualPercent" style="width:90px" value="@savedAllocations.get(i).actualPercent"
+                           step="any" min="0" pattern="^[-+]?[0-9]*\.?[0-9]+$" title="Should be decimal/numeric value"></td>
+                <td><input type="button" value="Reset" class="btn btn-success btn-sm" onclick="javascript:resetData('@i')">
+                </td>
+            </tr>
+            </tbody>
+             }
+            }
+            @for(j <- startInd until 10)  {
+
+            <tbody>
+            <tr>
+                <td>
+                    <select name="allocations[@j].resource" id="resource@j">
+                        <option value = 0>Select</option>
+                        @if(resourceList.size > 0){
+                        @for(eachResource <- resourceList.get){
+
+                        <option value="@eachResource.id">@eachResource.firstName @eachResource.lastName</option>
+                        }
+                        }
+                    </select>
+                    @if(resourceList.size > 0){
+                    @for(eachResource1 <- resourceList.get){
+                    <input type="hidden" value="@eachResource1.cost" id="@eachResource1.id"/>
+                    }}
+                </td>
+                <td><input id="expPercnt@j" type="number" name="allocations[@j].expectedPercent" style="width:90px"
+                           onchange="javascript:getCost('@j')" step="any" min="0" pattern="^[-+]?[0-9]*\.?[0-9]+$" title="Should be decimal/numeric value"></td>
+                <td><input id="cost@j" type="text" name="allocations[@j].cost" style="width:90px" readonly ></td>
+                <td><input id="actPercnt@j" type="number" name="allocations[@j].actualPercent" style="width:90px" step="any" min="0" pattern="^[-+]?[0-9]*\.?[0-9]+$" title="Should be decimal/numeric value"></td>
+                <td><input type="button" value="Reset" class="btn btn-success btn-sm" onclick="javascript:resetData('@j')">
+                </td>
+            </tr>
+            </tbody>
+
+            }
+        </table>
+        @if(resourceList.size == 0){
+        <span style="color: #ff0000"> <h4>No Resources found</h4> </span>
+        }
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="button" class="btn btn-success" onclick="javascript:submitForm('Save_In_Draft')">Save In Draft</button>
+            <button type="button" class="btn btn-success" onclick="javascript:submitForm('Estimation_Done')">Estimation Done</button>
+            <button type="button" class="btn btn-success" onclick="javascript:submitForm('Completed')">Submit</button>
+                <a href="@routes.ProjectsController.getAllProjects()"><button type="button" class="btn btn-primary">Cancel</button></a>
+            <input type="hidden" id="clickedButton" name="clickedButton" value=""/>
+        </div>
+    </div>
+        </form>
+</div>
+
+
+
+
+}

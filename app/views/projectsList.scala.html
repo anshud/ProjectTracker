@@ -1,0 +1,75 @@
+@(projectList: Option[List[model.projectMaster.ProjectMaster]],user1 : Option[model.user.UserMaster], tab:String)
+
+
+@main(title = "Show All Projects",user = user1, tabName = tab){
+<div class="container">
+<div class="row pull-right"><a href="@routes.ProjectsController.newProject()" class="btn btn-primary top-row">Create a Project</a></div>
+    </div>
+    <div class="container">
+
+
+        <legend>
+            Projects
+
+        </legend>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="info">
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                @if(projectList.size > 0){
+                @for(eachProject <- projectList.get){
+                <tbody>
+                <tr>
+                    <td><a href="@routes.ProjectsController.getProjectReadOnly(eachProject.id)">@eachProject.title</a>
+                    </td>
+                    <td>@eachProject.desc</td>
+                    @eachProject.status match {
+
+                    case 1 =>{
+                    <td>Active</td>
+                    }
+                    case 2 =>{
+                    <td>Inactive</td>
+                    }
+                    case 3 =>{
+                    <td>Completed</td>
+                    }
+                    case 4 =>{
+                    <td>Proposed</td>
+                    }
+                    }
+                    <td>@eachProject.start_date</td>
+                    <td>@eachProject.end_date</td>
+                    <td><a href="@routes.ProjectsController.getProject(eachProject.id)"><input type="button"
+                                                                                             value="Edit"
+                                                                                               class="btn btn-success btn-sm"></a>
+                        @if(eachProject.status ==1){
+                        |  <a href="@routes.ResourceAllocationController.getAllResourceAllocations(eachProject.id)">
+                            <input type="button" value="Allocate Resource" class="btn btn-success btn-sm"></a>
+                        |  <a href="@routes.MiscCostController.getAllMiscCostList(eachProject.id)"><input type="button" value="Add Cost"
+                                                                                                                        class="btn btn-success btn-sm"></a>
+                        |  <a href="@routes.ReportsController.showReport(eachProject.id)"><input type="button" value="Get Report"
+                                                                                                          class="btn btn-success btn-sm" ></a>
+                        }
+                    </td>
+                </tr>
+                </tbody>
+                }}
+            </table>
+            @if(projectList.size == 0){
+            <span style="color: #ff0000"> <h4>No Projects found</h4> </span>
+            }
+        </div>
+    </div>
+
+
+}

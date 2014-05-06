@@ -1,0 +1,107 @@
+@(resourceForm: Form[model.resources.ResourceMaster],user1 : Option[model.user.UserMaster],tab : String)
+
+
+@main(title = "Create New Resource",user = user1,tabName = tab){
+
+<div class="container">
+    <h2>Create New Resource</h2>
+
+    <div class="col-md-6">
+        <form class="form-horizontal" action="@routes.ResourceController.saveResource(0)" method="post" role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">First Name </label>
+
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" maxlength="50" value="" name="fName" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Middle Name</label>
+                <div class="col-sm-9">
+                    <input type="text"  class="form-control" maxlength="50" name="mName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Last Name</label>
+                <div class="col-sm-9">
+                    <input type="text"  class="form-control" maxlength="50" name="lName" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Email Id</label>
+                <div class="col-sm-9">
+                    <input type="email"  class="form-control" maxlength="50" name="emailId" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Skills</label>
+                <div class="col-sm-9">
+                    <textarea  class="form-control" maxlength="500" name="skills" required="true"> </textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Experience </label>
+                <div class="col-sm-4">
+                    <div class="small_drop">Year(s)</div>
+                    <select name="yrExp"  class="form-control" style="width: 95px">
+                        <option value=0 selected>0</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <div class="small_drop">Month(s)</div>
+                    <select name="mnthExp"  class="form-control" style="width: 95px">
+                        <option value=0 selected>0</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                        <option value=11>11</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <lable class="col-sm-3 control-label"><strong>Cost</strong></lable>
+                <div class="col-sm-9">
+                    <input  class="form-control" type="number" name="cost" required="true" step="any" min="0" pattern="^[-+]?[0-9]*\.?[0-9]+$" title="Should be decimal/numeric value">
+                </div>
+            </div>
+            <div class="form-group">
+                <lable class="col-sm-3 control-label"><strong>Status</strong></lable>
+                <div class="col-sm-9">
+                    <select name="status"  class="form-control">
+                        <option value=1>Active</option>
+                        <option value=2>To Join</option>
+                        <option value=3>Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit"  class="btn btn-success">Submit</button>
+                    <a href="@routes.ResourceController.getAllResources()">
+                        <button type="button" class="btn btn-primary">Cancel</button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+}

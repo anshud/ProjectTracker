@@ -1,0 +1,85 @@
+@(companyCosts: Option[model.company.CompanyMaster],
+costList : Option[List[model.company.MonthlyCost]],
+user1 : Option[model.user.UserMaster],tab : String)
+
+@import common._
+
+@main(title = "Company Costs",user = user1,tabName = tab){
+<div class="container">
+    <h2>Company Costs</h2>
+     @if(companyCosts.size > 0){
+    <div class="col-md-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Name</label>
+
+                <div class="col-sm-9 disable">
+                   @companyCosts.get.companyName
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Website</label>
+
+                <div class="col-sm-9 disable" >
+
+                    @companyCosts.get.website
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Contact Number</label>
+
+                <div class="col-sm-9 disable">  @companyCosts.get.contactPhone
+                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Address</label>
+
+                <div class="col-sm-9 disable">
+                    @companyCosts.get.address
+                </div>
+            </div>
+
+
+    </div>
+    }
+    @if(companyCosts.size == 0){
+     <span style="color: red"><strong>No Data found</strong></span>
+    }
+</div>
+
+
+<div class="container" style="padding-top: 50px">
+
+    </span>
+    </legend>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+            <th>Date</th>
+            <th>Fixed Cost</th>
+
+            </thead>
+            </tr>
+            @if(costList.size > 0){
+
+            @for(eachCost <- costList.get){
+            <tbody>
+            <tr>
+
+                </td>
+                <td>@eachCost.startDate</td>
+                <td>@eachCost.fixedCost</td>
+
+            </tr>
+            </tbody>
+            }
+
+            }
+
+        </table>
+    </div>
+
+
+</div>
+}
+

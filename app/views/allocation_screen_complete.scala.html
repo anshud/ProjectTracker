@@ -1,0 +1,104 @@
+@(allocationForm: Form[model.projectMaster.ResourceAllocations],
+resourceList: Option[List[model.resources.ResourceMaster]],
+project :Option[model.projectMaster.ProjectMaster],
+savedAllocations : Option[List[model.projectMaster.ResourceAllocation]],
+startInd : Int,lastInd : Int,user1 : Option[model.user.UserMaster],tab : String)
+
+
+@import java.util.Calendar
+@import common.DateUtils
+
+<script type="text/javascript">
+    function submitForm(buttonName){
+        var i;
+        for(i = 0; i < 10 ; i++) {
+            if(document.getElementById("resource"+i).value == 0){
+                document.getElementById("resource"+i).disabled = "true"
+                if(document.getElementById("expPercnt"+i).value == ""){
+                    document.getElementById("expPercnt"+i).disabled="true"
+                }
+                if(document.getElementById("actPercnt"+i).value == ""){
+                    document.getElementById("actPercnt"+i).disabled ="true"
+                }
+                if(document.getElementById("cost"+i).value == ""){
+                    document.getElementById("cost"+i).disabled ="true"
+                }
+            }
+
+        }
+        document.getElementById("clickedButton").value = buttonName
+        var form = document.getElementById("allocationFormId")
+        form.submit()
+    }
+    function getCost(i) {
+        var selected =  document.getElementById("resource"+i).value;
+        var act_percent = document.getElementById("actPercnt"+i).value;
+        var resCost = document.getElementById(selected).value
+        var actual_cost = (act_percent/100)* resCost
+        document.getElementById("cost"+i).value = actual_cost
+    }
+
+
+
+</script>
+@main(title = "Allocate Resource",user = user1,tabName = tab){
+
+<div class="container">
+
+
+    <legend>
+        Allocate Resources for Project:  <span style="color:green">@project.get.title</span>
+        <span class="pull-right" style="color:green">Month: @DateUtils.getStrMonth(Calendar.getInstance.getTime.getMonth()+1)</span>
+
+    </legend>
+    <form action="@routes.ResourceAllocationController.saveAllocation(project.get.id)" method="post" id="allocationFormId">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr class="info">
+                    <th>Resources</th>
+                    <th>Estimate allocation %</th>
+                    <th>Cost</th>
+                    <th>Actual allocation</th>
+                </tr>
+                </thead>
+                @if(savedAllocations.size > 0){
+                @for(i <- 0 until lastInd)  {
+
+                <tbody>
+                <tr>
+                    <td>
+                        <select name="allocations[@i].resource" id="resource@i" disabled>
+                            @for(eachResource <- resourceList.get){
+                            @if(savedAllocations.get(i).resource == eachResource.id){
+                            <option value="@eachResource.id" selected>@eachResource.firstName @eachResource.lastName</option>
+                            }
+
+                            }
+                        </select>
+
+                    </td>
+                    <td>@savedAllocations.get(i).expectedPercent</td>
+                    <td>@savedAllocations.get(i).cost</td>
+                    <td>@savedAllocations.get(i).actualPercent</td>
+
+                </tr>
+                </tbody>
+                }
+                }
+
+            </table>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <a href="@routes.ProjectsController.getAllProjects()"><button type="button" class="btn btn-primary">Back</button></a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+}

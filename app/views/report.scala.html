@@ -1,0 +1,61 @@
+
+@(reportData: Map[String ,  Map[String , model.reports.ReportMaster]],user1 : Option[model.user.UserMaster],tab : String)
+
+
+@main(title = "Report",user = user1,tabName = tab){
+
+<div class="container">
+
+
+    <legend>
+        Report
+
+    </legend>
+
+    <div class="table-responsive">
+        @for((key, value) <- reportData){
+        <span style="color: green;padding-bottom: 50px;font-size: 20px"><strong>@key</strong></span>
+        <table class="table">
+
+            <thead>
+            <tr class="info">
+                <th>Month</th>
+                <th>Total Estimated Cost</th>
+                <th>Total Actual Cost</th>
+                <th>Received</th>
+                <th>Delta</th>
+
+            </tr>
+            </thead>
+
+            @for((key1, value1) <- value) {
+            <tbody>
+            <tr>
+                <td><a href="@routes.ResourceAllocationController.getMonthAllocations(value1.projectId,key1)">@key1</a>
+                </td>
+                <td>@value1.totalEstimatedCost</td>
+
+                <td>@value1.totalActualCost</td>
+                <td>@value1.totalReceivedCost</td>
+                <td>@value1.delta</td>
+
+            </tr>
+            </tbody>
+            } }
+        </table>
+        @if(reportData.size == 0){
+        <span style="color:red">No Data Found</span>
+        }
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 pull-right" style="padding-top: 20px">
+                <a href="@routes.ProjectsController.getAllProjects()"><input type="button"
+                                                                             class="btn btn-success btn-sm" value="Back"></a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+}

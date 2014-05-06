@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+
+.info{background:#C8E5BC;}
+table {border: 1px solid #CCCCCC;}
+.navbar-inverse {
+    background-color: #489948;    
+    border-color: #3E8F3E;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    background-color: #166716;
+    color: #FFFFFF;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #cccccc;
+}
+.login{
+	text-align:center;
+	 font-size:14px;
+	  background:#000000; 
+	  color:#ffffff;
+	   padding:6px; 
+	   margin-bottom:10px;
+	   margin-left:15px;
+	    width:80px;
+		 border-radius:4px;}
+.login a{
+	text-decoration:none;
+	color:#ffffff;
+}
+.login a:hover{
+	text-decoration:none;
+	color:#ffffff;
+}
+
+.welcome{color:#9E9E9E; text-align:right; float:right; padding-top:5px;}
+
+h2{border-bottom:1px solid #cccccc; padding-bottom:15px; margin-bottom:25px;}
+.disable{padding-top:7px;}
+.center{text-align:center;}
+.green{border-bottom:3px solid #489948; margin-bottom:15px; padding-bottom:15px;}
+#footer{border-top:1px solid #cccccc; border-bottom:1px solid #cccccc; padding-top:10px; margin-top:30px; text-align:center;}
+.top-row{margin-bottom:0px;}
+
+input:required:focus {
+    border: 1px solid red;
+    outline: none;
+}
+input:required:hover {
+    opacity: 1;
+}
+.small_drop{float: left; padding-top: 7px; padding-right: 8px;}
+
+.login-align {margin: 50px auto; width:500px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

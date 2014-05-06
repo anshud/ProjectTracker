@@ -1,0 +1,65 @@
+@(resourceList: Option[List[model.resources.ResourceMaster]],user1 : Option[model.user.UserMaster],tab : String)
+
+
+
+@main(title = "Show All Resources",user = user1,tabName = tab){
+
+<div class="container">
+    <div class="row pull-right"><a href="@routes.ResourceController.newResource()" class="btn btn-primary top-row">Create new Resource</a></div>
+</div>
+<div class="container">
+
+
+    <legend>
+        Resources
+
+    </legend>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Experience</th>
+                <th>Cost</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            @if(resourceList.size > 0){
+            @for(eachResource <- resourceList.get){
+            <tbody>
+            <tr>
+                <td><a href="@routes.ResourceController.getResourceReadOnly(eachResource.id)">@eachResource.firstName @eachResource.lastName</a>
+                </td>
+                <td>@eachResource.emailId</td>
+                @eachResource.status match {
+
+                case 1 =>{
+                <td>Active</td>
+                }
+                case 2 =>{
+                <td>To Join</td>
+                }
+                case 3 =>{
+                <td>Inactive</td>
+                }
+
+                }
+                <td>@eachResource.yearExperience.@eachResource.monthExperience</td>
+                <td>@eachResource.cost</td>
+                <td><a href="@routes.ResourceController.getResource(eachResource.id)"><input type="button" value="Edit" class="btn btn-success btn-sm"></a>
+                </td>
+            </tr>
+            </tbody>
+            }}
+        </table>
+        @if(resourceList.size == 0){
+        <span style="color: #ff0000"> <h4>No Resources found</h4> </span>
+        }
+    </div>
+</div>
+
+
+}

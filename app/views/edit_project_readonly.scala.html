@@ -1,0 +1,108 @@
+@(project: Option[model.projectMaster.ProjectMaster],milestoneList : Option[List[model.milestones.MilestoneMaster]],
+user1 : Option[model.user.UserMaster],tab : String)
+@import common._
+
+@main(title = "View Project Details",user = user1,tabName = tab){
+<div class="container">
+    <h2>View Project</h2>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Title</label>
+
+            <div class="col-sm-9 disable">
+                @project.get.title
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Description</label>
+
+            <div class="col-sm-9 disable">
+                @project.get.desc.get
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Status</label>
+
+            <div class="col-sm-9 disable">
+                @project.get.status match {
+                case 1 => {
+                Active
+
+                }
+                case 2 => {
+                InActive
+                }
+                case 3 => {
+                Completed
+                }
+                case 4 => {
+                Proposed
+                }
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-sm-3 control-label"><strong>Start Date</strong></lable>
+            <div class="col-sm-9 disable">
+                @DateUtils.formatDateIntoString(project.get.start_date)
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-sm-3 control-label"><strong>End Date</strong></lable>
+            <div class="col-sm-9 disable">
+                @DateUtils.formatDateIntoString(project.get.end_date)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9 pull-right" style="padding-top: 20px">
+                <a href="@routes.ProjectsController.getAllProjects()"><input type="button"
+                                                                             class="btn btn-success btn-sm" value="Back"></a>
+                <a href="@routes.ProjectsController.getProject(project.get.id)"><input type="button"
+                                                                                       value="Edit"
+                                                                                       class="btn btn-success btn-sm"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <legend>Milestones</legend>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Title</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Estimated Completion Date</th>
+                <th>Actual Completion Date</th>
+            </tr>
+            </thead>
+            @if(milestoneList.size > 0){
+
+            @for(eachMilestone <- milestoneList.get){
+
+            <tr>
+                <td>@eachMilestone.title</td>
+                <td>@eachMilestone.desc</td>
+                <td>@eachMilestone.cost</td>
+                <td>@eachMilestone.estimated_completion_date</td>
+                <td>@eachMilestone.actual_completion_date</td>
+            </tr>
+
+            }
+
+            }
+
+        </table>
+
+
+
+    </div>
+    @if(milestoneList.size == 0){
+    <span style="color: red"> <h4>No Milestones found</h4> </span>
+    }
+
+</div>
+}

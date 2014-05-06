@@ -1,0 +1,35 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Map static resources from the /public folder to the /assets URL path
+GET      /assets/*file                                       controllers.Assets.at(path="/public", file)
+GET      /projectList                                        controllers.ProjectsController.getAllProjects()
+POST     /saveProject/:id                                    controllers.ProjectsController.saveProject(id :Int)
+GET      /newProject                                         controllers.ProjectsController.newProject()
+GET      /errorPage                                          controllers.ProjectsController.errors()
+GET      /editProject/:id                                    controllers.ProjectsController.getProject(id:Int)
+GET      /editProjectReadOnly/:id                            controllers.ProjectsController.getProjectReadOnly(id:Int)
+GET      /newMileStone/:id                                   controllers.MilestoneController.newMilestone(id :Int)
+POST     /saveMilestone/:id                                  controllers.MilestoneController.saveMilestone(id :Int)
+GET      /editMilestone/:id/:projectId                       controllers.MilestoneController.getMilestone(id:Int,projectId :Int)
+GET      /editMilestoneReadOnly/:id/:projectId               controllers.MilestoneController.getMilestoneReadOnly(id:Int,projectId :Int)
+GET      /newResource                                        controllers.ResourceController.newResource()
+GET      /resourceList                                       controllers.ResourceController.getAllResources()
+POST     /saveResource/:id                                    controllers.ResourceController.saveResource(id :Int)
+GET      /editResource/:id                                    controllers.ResourceController.getResource(id:Int)
+GET      /editResourceReadOnly/:id                            controllers.ResourceController.getResourceReadOnly(id:Int)
+GET      /allocationScreen/:projectId                         controllers.ResourceAllocationController.allocationScreen(projectId :Int)
+POST     /saveAllocation/:projectId                           controllers.ResourceAllocationController.saveAllocation(projectId :Int)
+GET      /getAllocations/:projectId                           controllers.ResourceAllocationController.getAllResourceAllocations(projectId :Int)
+GET      /getMonthAllocations/:projectId/:period              controllers.ResourceAllocationController.getMonthAllocations(projectId :Int,period :String)
+POST      /login                                              controllers.LoginController.authenticateUser()
+GET       /showCompanyCosts                                   controllers.CompanyController.showCompanyCosts()
+POST     /addCost/:projectId                                  controllers.MiscCostController.saveMiscCost(projectId :Int)
+GET      /getCost/:projectId                                  controllers.MiscCostController.getAllMiscCostList(projectId :Int)
+GET      /showReport/:projectId                               controllers.ReportsController.showReport(projectId : Int)
+GET     /logout                                              controllers.LoginController.logout()

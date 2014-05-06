@@ -1,0 +1,66 @@
+@(milestone: Option[model.milestones.MilestoneMaster],
+    projectId :Int,
+    user1 : Option[model.user.UserMaster],
+    tab: String)
+
+@import common._
+@main(title = "View Milestone",user = user1,tabName = tab){
+
+<div class="container">
+    <h2>Edit Milestone</h2>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Title</label>
+        <div class="col-sm-9 disable">
+        @milestone.get.title
+        </div>
+    </div>
+    <div class="form-group">
+            <label class="col-sm-3 control-label" style="width: 180px">Description</label>
+        <div class="col-sm-9 disable">
+        @milestone.get.desc
+        </div>
+    </div>
+    <div class="form-group">
+            <label class="col-sm-3 control-label"  style="width: 180px">Status </label>
+        <div class="col-sm-9 disable">
+
+                @milestone.get.status match {
+                case 1 => {
+                Pending
+                }
+                case 2 => {
+                Completed
+
+                }
+                }
+        </div>
+    </div>
+    <div class="form-group">
+            <lable class="col-sm-3 control-label"  style="width: 180px"><strong>Amount</strong></lable>
+        <div class="col-sm-9 disable">
+       @milestone.get.cost
+        </div>
+    </div>
+    <div class="form-group">
+            <lable class="col-sm-3 control-label"  style="width: 180px"><strong>Estimated Completion Date</strong></lable>
+        <div class="col-sm-9 disable">
+            @DateUtils.formatDateIntoString(milestone.get.estimated_completion_date)
+        </div>
+    </div>
+        <div class="form-group">
+            <lable class="col-sm-3 control-label" style="width: 180px"><strong>Actual Completion Date</strong></lable>
+            <div class="col-sm-9 disable">
+                @DateUtils.formatDateIntoString(milestone.get.actual_completion_date)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+            <a href="@routes.ProjectsController.getProject(projectId)"><input type="button" value="Back" class="btn btn-success"></a>
+            <a href="@routes.MilestoneController.getMilestone(milestone.get.id,projectId)"><input
+                        type="button" value="Edit" class="btn btn-success btn-sm"></a>
+            </div>
+        </div>
+    </div>
+</div>
+        }

@@ -1,0 +1,92 @@
+@(resource: Option[model.resources.ResourceMaster],user1 : Option[model.user.UserMaster],tab : String)
+@import common._
+
+@main(title = "Edit Resource",user = user1,tabName = tab){
+
+<div class="container">
+    <h2>View Resource</h2>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">First Name </label>
+
+            <div class="col-sm-9 disable">
+                @resource.get.firstName
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Middle Name</label>
+
+            <div class="col-sm-9 disable">
+                @resource.get.middleName.get
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Last Name</label>
+
+            <div class="col-sm-9 disable">
+                @resource.get.lastName
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Email Id</label>
+
+            <div class="col-sm-9 disable">
+                @resource.get.emailId
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Skills</label>
+
+            <div class="col-sm-9 disable">
+                @resource.get.skills
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Experience </label>
+
+            <div class="col-sm-9 disable">
+
+                @resource.get.yearExperience.@resource.get.monthExperience
+            </div>
+
+        </div>
+        <div class="form-group">
+            <lable class="col-sm-3 control-label"><strong>Cost</strong></lable>
+            <div class="col-sm-9 disable">
+                @resource.get.cost
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-sm-3 control-label"><strong>Status</strong></lable>
+            <div class="col-sm-9 disable">
+                    @resource.get.status match {
+                    case 1 => {
+                    Active
+                    }
+                    case 2 => {
+                    To Join
+                    }
+                    case 3 => {
+                    Inactive
+                    }
+                    }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <a href="@routes.ResourceController.getAllResources()">
+                    <button type="button" class="btn btn-success">Back</button>
+                </a>
+                <a href="@routes.ResourceController.getResource(resource.get.id)">
+                    <button type="button" class="btn btn-success">Edit</button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+}
+

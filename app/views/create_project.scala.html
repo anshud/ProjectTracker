@@ -1,0 +1,87 @@
+@(projectForm: Form[model.projectMaster.ProjectMaster],errorMsg : String,user1 : Option[model.user.UserMaster],tab : String)
+
+
+@main(title = "Create New Project",user = user1,tabName = tab){
+
+<div class="container">
+    <h2>Create New Project</h2>
+
+    <div class="col-md-6">
+        <span style="color: red">@errorMsg</span>
+        <form class="form-horizontal" action="@routes.ProjectsController.saveProject(0)" method="post" role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Title </label>
+
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" maxlength="500" value="" name="title" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Description</label>
+                <div class="col-sm-9">
+                    <textarea  class="form-control" maxlength="500" rows="2" cols="3" name="description"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Status </label>
+                <div class="col-sm-9">
+                    <select name="status"  class="form-control">
+                        <option value=1 selected>Active</option>
+                        <option value=2>InActive</option>
+                        <option value=3>Completed</option>
+                        <option value=4>Proposed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <lable class="col-sm-3 control-label"><strong>Start Date</strong></lable>
+
+                <div class="col-sm-9" id="datetimepicker">
+                    <input  class="form-control" type="text" name="start_date" required="true" id="datetimepicker1" readonly>
+
+
+                 </div>
+
+            </div>
+            <div class="form-group">
+                <lable class="col-sm-3 control-label"><strong>End Date</strong></lable>
+                <div class="col-sm-9">
+                    <input  class="form-control" type="datetime" name="end_date" required="true"  id="datetimepicker2" readonly>
+
+                </div>
+             </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit"  class="btn btn-success">Submit</button>
+            <a href="@routes.ProjectsController.getAllProjects()">
+                <button type="button" class="btn btn-primary">Cancel</button>
+            </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+    }
+<script>
+
+    $('#datetimepicker1').datetimepicker({
+        timepicker:false,
+        format:'m/d/y',
+        formatDate:'m/d/Y',
+        minDate:'-1970/01/02' // yesterday is minimum date
+        //maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+    });
+
+    $('#datetimepicker2').datetimepicker({
+        timepicker:false,
+        format:'m/d/y',
+        formatDate:'m/d/Y',
+        minDate:'-1970/01/02' // yesterday is minimum date
+        //maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+    });
+
+
+
+</script>
